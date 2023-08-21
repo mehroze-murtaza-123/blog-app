@@ -2,5 +2,8 @@
 <p>Find me in app/views/books/index.html.erb</p>
 <% @books.each do |book| %>
   <%= book.name %>
+  <br />
 <% end %>
 <h3>Changes for docker compose in index.html file</h3>
+
+<%= button_to "Create", new_book_path, method: :get, class: "btn btn-primary" %>

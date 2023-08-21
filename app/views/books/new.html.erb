@@ -1,0 +1,6 @@
+<%= form_with model: @book, url: books_path, method: :post do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+
+  <%= form.submit "Create Book" %>
+<% end %>
