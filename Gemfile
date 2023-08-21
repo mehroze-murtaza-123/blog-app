@@ -73,4 +73,3 @@ end
 
 gem 'pg'
 gem 'dotenv-rails'
-gem 'byebug'
