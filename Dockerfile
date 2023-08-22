@@ -4,6 +4,8 @@ WORKDIR /blog-app
 
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
 
+RUN gem install bundler
+
 COPY Gemfile Gemfile.lock ./
 
 RUN bundle install
