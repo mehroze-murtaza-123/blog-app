@@ -6,22 +6,6 @@ on:
       -  "main"
 
 jobs:
-  # build:
-  #   name: app
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #     - uses: actions/checkout@v2
-
-  #     - name: Setup ruby and install gems
-  #     - uses: ruby/setup-ruby@v1
-  #       with:
-  #         bundler-cache: true
-  #     - name: Setup Node
-  #     - uses: actions/setup-node@v2
-  #       with:
-  #         node-version: 16
-  #         cache: yarn
   tests:
     name: Tests
     runs-on: ubuntu-latest
@@ -41,12 +25,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-
-      # - name: Setup Node
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: 16
-      #     cache: yarn
       - name: Setup test database
         env:
           RAILS_ENV: test
