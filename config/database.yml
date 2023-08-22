@@ -37,3 +37,7 @@ default: &default
 development:
   <<: *default
   database: <%= ENV.fetch('POSTGRES_DATABASE') %>
+
+test:
+  <<: *default
+  database: <%= ENV.fetch('POSTGRES_DATABASE_TEST') %>
