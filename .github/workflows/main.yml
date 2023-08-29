@@ -6,32 +6,39 @@ on:
       -  "main"
 
 jobs:
-  tests:
-    name: Tests
+  build:
     runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres:15
+        ports:
+          - 5432:5432
         env:
           POSTGRES_USER: postgres
-          POSTGRES_DB: blog-db
           POSTGRES_PASSWORD: postgres
-        ports: ["5432:5432"]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby and install gems
-        uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@v1
+      - uses: actions/setup-ruby@v1
         with:
-          bundler-cache: true
-      - name: Setup test database
+          ruby-version: 3.0.0
+      - name: Install dependent libraries
+        run: sudo apt-get install postgresql-client
+      - name: Bundle install
+        run: |
+          gem install bundler
+          bundle install
+      - name: Setup Database
+        run: |
+          cp config/database.yml.github-actions config/database.yml
+          bundle exec rake db:create
+          bundle exec rake db:schema:load
         env:
           RAILS_ENV: test
-          PGHOST: db
-          PGUSER: postgres
-        run: |
-          bin/rails db:setup
-
-      - name: Run tests
-        run: bin/rspec
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+      - name: Run RSpec
+        run: COVERAGE=true bundle exec rspec  --require rails_helper
+        env:
+          RAILS_ENV: test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
