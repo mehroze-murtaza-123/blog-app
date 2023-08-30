@@ -18,7 +18,7 @@ jobs:
           POSTGRES_DB: blog-db-test
     env:
       RAILS_ENV: test
-      # DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
+      DATABASE_URL: "postgres://postgres:postgres@localhost:5432/blog-db-test"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
