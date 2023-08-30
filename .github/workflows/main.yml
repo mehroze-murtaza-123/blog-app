@@ -23,7 +23,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v3
+        uses: ruby/setup-ruby@latest
         with:
           bundler-cache: true
           ruby-version: 3.0.0
