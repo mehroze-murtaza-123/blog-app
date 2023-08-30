@@ -2,37 +2,32 @@ name: blog_app
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres:15-alpine
         ports:
-          - 5432:5432
+          - "5432:5432"
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: blog-db-test
+    env:
+      RAILS_ENV: test
+      # DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
     steps:
-      - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v2
         with:
-          ruby-version: 3.0
-      - name: Bundle install
-        run: |
-          gem install bundler
-          bundle install
-      - name: Setup Database
-        run: |
-          cp config/database.yml.github-actions config/database.yml
-          bundle exec rake db:create
-          bundle exec rake db:schema:load
-        env:
-          RAILS_ENV: test
+          bundler-cache: true
+          ruby-version: 3.0.0
+      - name: Setup Database schema
+        run: bin/rails db:schema:load
       - name: Run RSpec
-        run: COVERAGE=true bundle exec rspec --require rails_helper
-        env:
-          RAILS_ENV: test
+        run: bin/rake
